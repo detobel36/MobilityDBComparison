@@ -2,7 +2,7 @@
 from sys import argv
 
 from Postgresql.fetchData import fetchDataPostgresql
-from Pipelinedb.fetchDataObject import fetchDataPipelinedb
+from Pipelinedb.fetchData import fetchDataPipelinedb
 
 # Permet d'activer des messages de débug
 # DEBUG = False

@@ -45,7 +45,7 @@ class AbstractFetchData(abc.ABC):
 
                 compteur += 1
                 if compteur == 120: # Toute les heures netoyage des données
-                    slef.clearOldData()
+                    self.clearOldData()
                     compteur = 0
 
                 sleep(int(self.mtaConfig['sleep_time']))
