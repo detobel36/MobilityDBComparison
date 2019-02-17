@@ -1,0 +1,6 @@
+[mta]
+debug=false
+min_distance=5
+sleep_time=30
+api=http://gtfsrt.prod.obanyc.com/vehiclePositions?key=
+token=TOKEN
