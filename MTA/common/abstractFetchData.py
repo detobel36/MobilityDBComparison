@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from time import gmtime, strftime, sleep
+from time import gmtime, strftime, sleep, time
 
 from google.transit import gtfs_realtime_pb2
 import urllib
@@ -37,8 +37,12 @@ class AbstractFetchData(abc.ABC):
             while True:
                 self.printInfo("New request started")
                 result = self.makeRequest(feed)
+                self.printInfo("Nombre d'entrée: " + str(len(result)))
+                startProccessTime = time()
                 for entity in result:
                     self.processOnEntity(entity)
+                self.printInfo("Temps d'exécussion: " + str(time() - startProccessTime) + " sec")
+
                 compteur += 1
                 if compteur == 120: # Toute les heures netoyage des données
                     slef.clearOldData()
