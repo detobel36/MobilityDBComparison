@@ -1,7 +1,8 @@
 #!/usr/bin/python
 from sys import argv
 
-from Postgresql.fetchDataObject import fetchDataPostgresql
+from Postgresql.fetchData import fetchDataPostgresql
+from Pipelinedb.fetchDataObject import fetchDataPipelinedb
 
 # Permet d'activer des messages de débug
 # DEBUG = False
@@ -19,17 +20,9 @@ def main():
         printHelp()
     else:
         if(argv[1] == 'postgresql'):
-            postgresql()
+            fetchDataPostgresql()
         elif(argv[1] == 'pipelinedb'):
-            pipelinedb()
-
-
-def postgresql():
-    fetchDataPostgresql()
-
-
-def pipelinedb():
-    pass
+            fetchDataPipelinedb()
 
 
 def printHelp():
