@@ -3,5 +3,3 @@ host=localhost
 database=dbName
 user=dbUser
 password=dbPassword
-[mta]
-token=TOKEN

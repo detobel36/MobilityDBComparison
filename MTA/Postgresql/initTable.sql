@@ -1,3 +1,7 @@
+CREATE DATABASE mta_postgresql;
+ALTER DATABASE mta_pipelinedb OWNER TO mtauser;
+CREATE EXTENSION IF NOT EXISTS mobilitydb CASCADE;
+
 CREATE SEQUENCE bus_position_id_seq
     START WITH 1
     INCREMENT BY 1
