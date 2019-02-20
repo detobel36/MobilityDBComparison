@@ -37,8 +37,10 @@ CREATE TABLE "busTrip" (
     route_id character varying(25) NOT NULL,
     direction_id integer NOT NULL,
     trip tgeompoint NOT NULL,
+    start_date timestamp NOT NULL,
     CONSTRAINT busTripUnique UNIQUE(vehicle_id, trip_id, route_id, direction_id)
 );
+CREATE INDEX ON "busTrip" (start_date);
 
 
 CREATE SEQUENCE bus_trip_clean_id_seq
@@ -55,5 +57,7 @@ CREATE TABLE "busTripClean" (
     route_id character varying(25) NOT NULL,
     direction_id integer NOT NULL,
     trip tgeompoint NOT NULL,
+    start_date timestamp NOT NULL,
     CONSTRAINT busTripCleanUnique UNIQUE(vehicle_id, trip_id, route_id, direction_id)
 );
+CREATE INDEX ON "busTripClean" (start_date);

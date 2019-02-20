@@ -10,13 +10,13 @@ class fetchDataPostgresql(AbstractFetchData):
 
 
     def clearOldData(self):
-        requestSQL = 'DELETE FROM "busTrip" WHERE startTimestamp(trip) <= NOW()+ interval \'-1 day\';'
+        requestSQL = 'DELETE FROM "busTrip" WHERE start_date <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
         requestSQL = 'DELETE FROM "busPosition" WHERE moment <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
-        requestSQL = 'DELETE FROM "busTripClean" WHERE startTimestamp(trip) <= NOW()+ interval \'-1 day\';'
+        requestSQL = 'DELETE FROM "busTripClean" WHERE start_date <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
 
@@ -30,7 +30,7 @@ class fetchDataPostgresql(AbstractFetchData):
     def insertToBusTrip(self, entity):
         vehicle = entity.vehicle
 
-        requestSQL = 'INSERT INTO "busTrip"(vehicle_id, trip_id, route_id, direction_id, trip) ' + \
+        requestSQL = 'INSERT INTO "busTrip"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
             'VALUES (' + \
                 "'" + str(vehicle.vehicle.id) + "', " + \
                 "'" + str(vehicle.trip.trip_id) + "', " + \
@@ -39,7 +39,8 @@ class fetchDataPostgresql(AbstractFetchData):
                 'tgeompointseq(tgeompointinst(ST_SetSRID(ST_MakePoint(' + \
                     str(float(vehicle.position.latitude)) + ', ' + \
                     str(float(vehicle.position.longitude)) + \
-                    '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + ')))' + \
+                    '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + '))), ' + \
+                'to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             ') ' + \
         'ON CONFLICT ON CONSTRAINT bustripunique ' + \
         'DO ' + \
@@ -67,7 +68,7 @@ class fetchDataPostgresql(AbstractFetchData):
     def insertToBusTripClean(self, entity):
         vehicle = entity.vehicle
 
-        requestSQL = 'INSERT INTO "busTripClean"(vehicle_id, trip_id, route_id, direction_id, trip) ' + \
+        requestSQL = 'INSERT INTO "busTripClean"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
             'VALUES (' + \
                 "'" + str(vehicle.vehicle.id) + "', " + \
                 "'" + str(vehicle.trip.trip_id) + "', " + \
@@ -76,7 +77,8 @@ class fetchDataPostgresql(AbstractFetchData):
                 'tgeompointseq(tgeompointinst(ST_SetSRID(ST_MakePoint(' + \
                     str(float(vehicle.position.latitude)) + ', ' + \
                     str(float(vehicle.position.longitude)) + \
-                    '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + ')))' + \
+                    '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + '))), ' + \
+                'to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             ') ' + \
         'ON CONFLICT ON CONSTRAINT bustripcleanunique ' + \
         'DO ' + \

@@ -49,11 +49,12 @@ $BODY$
 END;
 $BODY$ LANGUAGE plpgsql;
 
-CREATE VIEW "busTrip" WITH (action=materialize) AS
+CREATE VIEW "busTrip" WITH (action=materialize, ttl='1 day', ttl_column='start_date') AS
 SELECT position.vehicle_id, 
     position.trip_id, 
     position.route_id, 
     position.direction_id, 
+    min(position.moment) AS start_date,
     tgeompointseq(anyarray_uniq(array_agg(position.inst)), true, true)
 FROM "busPosition_stream" AS position
 GROUP BY position.vehicle_id, position.trip_id, position.route_id, position.direction_id;
@@ -103,11 +104,12 @@ $BODY$ LANGUAGE plpgsql;
 
 
 
-CREATE VIEW "busTripClean" WITH (action=materialize) AS
+CREATE VIEW "busTripClean" WITH (action=materialize, ttl='1 day', ttl_column='start_date') AS
 SELECT position.vehicle_id, 
     position.trip_id, 
     position.route_id, 
     position.direction_id, 
+    min(position.moment) AS start_date,
     tgeompointseq(anyarray_uniq_clean(array_agg(position.inst)), true, true)
 FROM "busPosition_stream" AS position
 GROUP BY position.vehicle_id, position.trip_id, position.route_id, position.direction_id;
