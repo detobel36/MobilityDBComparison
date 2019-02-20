@@ -16,7 +16,7 @@ class fetchDataPostgresql(AbstractFetchData):
         requestSQL = 'DELETE FROM "busPosition" WHERE moment <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
-        requestSQL = 'DELETE FROM "busTripClean" WHERE start_date <= NOW()+ interval \'-1 day\';'
+        requestSQL = 'DELETE FROM "busTripClean5" WHERE start_date <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
 
@@ -24,7 +24,7 @@ class fetchDataPostgresql(AbstractFetchData):
     def processOnEntity(self, entity):
         self.insertToBusPosition(entity)
         self.insertToBusTrip(entity)
-        self.insertToBusTripClean(entity)
+        self.insertToBusTripClean5(entity)
 
 
     def insertToBusTrip(self, entity):
@@ -65,10 +65,10 @@ class fetchDataPostgresql(AbstractFetchData):
         self.printDebug("Insert:" + str(vehicle.vehicle.id))
 
 
-    def insertToBusTripClean(self, entity):
+    def insertToBusTripClean5(self, entity):
         vehicle = entity.vehicle
 
-        requestSQL = 'INSERT INTO "busTripClean"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
+        requestSQL = 'INSERT INTO "busTripClean5"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
             'VALUES (' + \
                 "'" + str(vehicle.vehicle.id) + "', " + \
                 "'" + str(vehicle.trip.trip_id) + "', " + \
@@ -80,14 +80,14 @@ class fetchDataPostgresql(AbstractFetchData):
                     '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + '))), ' + \
                 'to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             ') ' + \
-        'ON CONFLICT ON CONSTRAINT bustripcleanunique ' + \
+        'ON CONFLICT ON CONSTRAINT bustripclean5unique ' + \
         'DO ' + \
             'UPDATE ' + \
             'SET trip = tgeompointseq(tgeompoints(ARRAY[' + \
-                'tgeompointseq("busTripClean".trip), ' + \
+                'tgeompointseq("busTripClean5".trip), ' + \
                 'tgeompointseq( ' + \
                     'ARRAY[' + \
-                        'endInstant(tgeompointseq("busTripClean".trip)), ' + \
+                        'endInstant(tgeompointseq("busTripClean5".trip)), ' + \
                         'tgeompointinst(ST_SetSRID(ST_MakePoint(' + \
                             str(float(vehicle.position.latitude)) + ', ' + \
                             str(float(vehicle.position.longitude)) + \
@@ -96,10 +96,10 @@ class fetchDataPostgresql(AbstractFetchData):
                 ')' + \
             '])) ' + \
             'WHERE ' + \
-                'endTimestamp(tgeompointseq("busTripClean".trip)) < to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
+                'endTimestamp(tgeompointseq("busTripClean5".trip)) < to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             'AND ' + \
                 'ST_Distance(' + \
-                    'ST_Transform(endValue("busTripClean".trip), 3857), ' + \
+                    'ST_Transform(endValue("busTripClean5".trip), 3857), ' + \
                     'ST_Transform(ST_SetSRID(ST_MakePoint(' + str(float(vehicle.position.latitude)) + \
                         ', ' + str(float(vehicle.position.longitude)) + '),4326), 3857) ' + \
                 ') > ' + str(self.mtaConfig['min_distance'])
