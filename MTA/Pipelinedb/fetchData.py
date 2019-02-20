@@ -6,7 +6,7 @@ from common.config import config
 class fetchDataPipelinedb(AbstractFetchData):
 
     def __init__(self):
-        super().__init__(config(filename='Pipelinedb/config.ini'))
+        super().__init__(config(filename='Pipelinedb/config.ini'), logFile='fetchPipelinedb.log')
 
 
     def clearOldData(self):

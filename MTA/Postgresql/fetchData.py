@@ -6,7 +6,7 @@ from common.config import config
 class fetchDataPostgresql(AbstractFetchData):
 
     def __init__(self):
-        super().__init__(config(filename='Postgresql/config.ini'))
+        super().__init__(config(filename='Postgresql/config.ini'), logFile='fetchPostgresql.log')
 
 
     def clearOldData(self):

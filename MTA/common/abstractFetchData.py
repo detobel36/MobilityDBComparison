@@ -13,26 +13,36 @@ from common.database import Database
 
 class AbstractFetchData(abc.ABC):
 
-    def __init__(self, dbConfig):
+    def __init__(self, dbConfig, logFile='debug.log'):
         self.mtaConfig = config(filename='common/config.ini', section='mta')
         self.minDistance = self.mtaConfig['min_distance']
         self.debug = str(self.mtaConfig['debug']).lower() == 'true'
+        self.logFileName = logFile
         self.database = Database(dbConfig)
         self.loop()
 
 
     def printDebug(self, message):
         if self.debug:
-            print('[DEBUG] ' + strftime("%d-%m-%Y %H:%M:%S", gmtime()) + ": " + str(message))
+            logMessage = '[DEBUG] ' + strftime("%d-%m-%Y %H:%M:%S", gmtime()) + ": " + str(message)
+            with open(self.logFileName, "a") as f:
+                f.write(logMessage + "\n")
+            print(logMessage)
 
 
     def printInfo(self, message):
-        print('[INFO] ' + strftime("%d-%m-%Y %H:%M:%S", gmtime()) + ": " + str(message))
+        logMessage = '[INFO] ' + strftime("%d-%m-%Y %H:%M:%S", gmtime()) + ": " + str(message)
+        with open(self.logFileName, "a") as f:
+            f.write(logMessage + "\n")
+        print(logMessage)
 
 
     def loop(self):
         feed = gtfs_realtime_pb2.FeedMessage()
         try:
+            self.printInfo("Clear old data");
+            self.clearOldData()
+
             compteur = 0
             while True:
                 self.printInfo("New request started")
@@ -45,6 +55,7 @@ class AbstractFetchData(abc.ABC):
 
                 compteur += 1
                 if compteur == 120: # Toute les heures netoyage des données
+                    self.printInfo("Clear old data");
                     self.clearOldData()
                     compteur = 0
 
