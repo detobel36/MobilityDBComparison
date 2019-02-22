@@ -38,9 +38,10 @@ class AbstractFetchData(abc.ABC):
 
 
     def loop(self):
+        self.printInfo("------ Start ------")
         feed = gtfs_realtime_pb2.FeedMessage()
         try:
-            self.printInfo("Clear old data");
+            self.printInfo("Clear old data")
             self.clearOldData()
 
             compteur = 0
@@ -65,6 +66,8 @@ class AbstractFetchData(abc.ABC):
 
         except KeyboardInterrupt:
             pass # On arrête le programme
+
+        self.printInfo("------ End ------")
 
     def getApiUrl(self):
         return str(self.mtaConfig['api']) + str(self.mtaConfig['token'])

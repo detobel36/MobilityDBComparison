@@ -19,12 +19,22 @@ class fetchDataPostgresql(AbstractFetchData):
         requestSQL = 'DELETE FROM "busTripClean5" WHERE start_date <= NOW()+ interval \'-1 day\';'
         self.database.req(requestSQL)
         self.printDebug("Delete data:" + str(requestSQL))
+        requestSQL = 'DELETE FROM "busTripClean10" WHERE start_date <= NOW()+ interval \'-1 day\';'
+        self.database.req(requestSQL)
+        self.printDebug("Delete data:" + str(requestSQL))
+        requestSQL = 'DELETE FROM "busTripClean15" WHERE start_date <= NOW()+ interval \'-1 day\';'
+        self.database.req(requestSQL)
+        self.printDebug("Delete data:" + str(requestSQL))
 
 
     def processOnEntity(self, entity):
         self.insertToBusPosition(entity)
         self.insertToBusTrip(entity)
-        self.insertToBusTripClean5(entity)
+        # Valeur par défaut:
+        # self.mtaConfig['min_distance']
+        self.insertToBusTripCleanWithDistance(entity, 5)
+        self.insertToBusTripCleanWithDistance(entity, 10)
+        self.insertToBusTripCleanWithDistance(entity, 15)
 
 
     def insertToBusTrip(self, entity):
@@ -65,10 +75,10 @@ class fetchDataPostgresql(AbstractFetchData):
         self.printDebug("Insert:" + str(vehicle.vehicle.id))
 
 
-    def insertToBusTripClean5(self, entity):
+    def insertToBusTripCleanWithDistance(self, entity, minDistance):  
         vehicle = entity.vehicle
 
-        requestSQL = 'INSERT INTO "busTripClean5"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
+        requestSQL = 'INSERT INTO "busTripClean' + str(minDistance) + '"(vehicle_id, trip_id, route_id, direction_id, trip, start_date) ' + \
             'VALUES (' + \
                 "'" + str(vehicle.vehicle.id) + "', " + \
                 "'" + str(vehicle.trip.trip_id) + "', " + \
@@ -80,14 +90,14 @@ class fetchDataPostgresql(AbstractFetchData):
                     '),4326), to_timestamp(' + str(int(vehicle.timestamp)) + '))), ' + \
                 'to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             ') ' + \
-        'ON CONFLICT ON CONSTRAINT bustripclean5unique ' + \
+        'ON CONFLICT ON CONSTRAINT bustripclean' + str(minDistance) + 'unique ' + \
         'DO ' + \
             'UPDATE ' + \
             'SET trip = tgeompointseq(tgeompoints(ARRAY[' + \
-                'tgeompointseq("busTripClean5".trip), ' + \
+                'tgeompointseq("busTripClean' + str(minDistance) + '".trip), ' + \
                 'tgeompointseq( ' + \
                     'ARRAY[' + \
-                        'endInstant(tgeompointseq("busTripClean5".trip)), ' + \
+                        'endInstant(tgeompointseq("busTripClean' + str(minDistance) + '".trip)), ' + \
                         'tgeompointinst(ST_SetSRID(ST_MakePoint(' + \
                             str(float(vehicle.position.latitude)) + ', ' + \
                             str(float(vehicle.position.longitude)) + \
@@ -96,16 +106,17 @@ class fetchDataPostgresql(AbstractFetchData):
                 ')' + \
             '])) ' + \
             'WHERE ' + \
-                'endTimestamp(tgeompointseq("busTripClean5".trip)) < to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
+                'endTimestamp(tgeompointseq("busTripClean' + str(minDistance) + '".trip)) < to_timestamp(' + str(int(vehicle.timestamp)) + ') ' + \
             'AND ' + \
                 'ST_Distance(' + \
-                    'ST_Transform(endValue("busTripClean5".trip), 3857), ' + \
+                    'ST_Transform(endValue("busTripClean' + str(minDistance) + '".trip), 3857), ' + \
                     'ST_Transform(ST_SetSRID(ST_MakePoint(' + str(float(vehicle.position.latitude)) + \
                         ', ' + str(float(vehicle.position.longitude)) + '),4326), 3857) ' + \
-                ') > ' + str(self.mtaConfig['min_distance'])
+                ') > ' + str(minDistance)
+
         self.printDebug("Request:" + str(requestSQL))
         self.database.req(requestSQL)
-        self.printDebug("Insert:" + str(vehicle.vehicle.id))    
+        self.printDebug("Insert:" + str(vehicle.vehicle.id)) 
 
 
     def insertToBusPosition(self, entity):

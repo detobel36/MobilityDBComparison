@@ -16,7 +16,7 @@ CREATE FOREIGN TABLE "busPosition_stream" (
     stop_id integer)
 SERVER pipelinedb;
 
-
+-- Source: https://github.com/JDBurnZ/postgresql-anyarray
 DROP FUNCTION IF EXISTS anyarray_uniq(anyarray);
 CREATE OR REPLACE FUNCTION anyarray_uniq(with_array anyarray)
     RETURNS anyarray AS

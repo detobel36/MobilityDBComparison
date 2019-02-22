@@ -19,7 +19,8 @@ CREATE TABLE "busPosition" (
     inst tgeompoint NOT NULL,
     bearing double precision NOT NULL,
     moment timestamp without time zone NOT NULL,
-    stop_id integer NOT NULL
+    stop_id integer NOT NULL,
+    CONSTRAINT unique_busposition UNIQUE(vehicle_id, trip_id, start_date, route_id, direction_id, moment)
 );
 
 
