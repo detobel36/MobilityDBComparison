@@ -13,12 +13,14 @@ from common.database import Database
 
 class AbstractFetchData(abc.ABC):
 
-    def __init__(self, dbConfig, logFile='debug.log'):
+    def __init__(self, dbConfig, logFile='debug.log', enableDatabase=True):
         self.mtaConfig = config(filename='common/config.ini', section='mta')
         self.minDistance = self.mtaConfig['min_distance']
         self.debug = str(self.mtaConfig['debug']).lower() == 'true'
         self.logFileName = logFile
-        self.database = Database(dbConfig)
+        self.dbConfig = dbConfig
+        if(enableDatabase):
+            self.database = Database(dbConfig)
         self.loop()
 
 

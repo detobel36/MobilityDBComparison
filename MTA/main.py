@@ -3,6 +3,8 @@ from sys import argv
 
 from Postgresql.fetchData import fetchDataPostgresql
 from Pipelinedb.fetchData import fetchDataPipelinedb
+from Barefoot.fetchData import fetchDataBarefoot
+
 
 # Permet d'activer des messages de débug
 # DEBUG = False
@@ -23,6 +25,8 @@ def main():
             fetchDataPostgresql()
         elif(argv[1] == 'pipelinedb'):
             fetchDataPipelinedb()
+        elif(argv[1] == 'barefoot'):
+            fetchDataBarefoot()
 
 
 def printHelp():
@@ -32,6 +36,9 @@ def printHelp():
     print("    Permet de lancer le test avec l'installation PostgreSQL")
     print("  pipelinedb")
     print("    Permet de lancer le test avec l'installation PipelineDB")
+    print("  barefoot")
+    print("    Permet de récupérer les données MTA et de les envoyer au server Barefoot")
+    print("")
 
 if __name__ == '__main__':
     main()
