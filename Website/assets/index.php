@@ -1,0 +1,1 @@
+<h1>Asset interdit</h1>

@@ -1,0 +1,12 @@
+.clickable {
+    cursor: pointer;
+}
+
+.dataLayersDiv {
+    overflow: scroll;
+    max-height: 300px;
+}
+
+.olControlLayerSwitcher .layersDiv {
+    padding-right: 0px !important;
+}
