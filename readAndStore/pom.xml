@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>be.rdetobel</groupId>
+    <artifactId>readAndStore</artifactId>
+    <version>0.1</version>
+    <packaging>jar</packaging>
+    <properties>
+        <mainClass>be.rdetobel.readandstore.ReadAndStore</mainClass>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    
+    <build>
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>${project.name}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>be.rdetobel.readandstore.ReadAndStore</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                </configuration>
+                <executions>
+                        <execution>
+                            <id>ReadAndStore</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>be.rdetobel.readandstore.ReadAndStore</mainClass>
+                                    </manifest>
+                                </archive>
+                            </configuration>
+                        </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.google.transit</groupId>
+            <artifactId>gtfs-realtime-bindings</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>9.2-1003-jdbc4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
