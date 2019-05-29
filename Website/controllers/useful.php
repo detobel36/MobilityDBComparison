@@ -3,8 +3,7 @@
 $data = array();
 $SITE_URL = 'http://detobel36.ddns.net/MTA/';
 $db_name = 'mta';
-// $LAMINAR_URL = 'https://api.laminardata.aero/v1/';
-// $USER_KEY = '09a5e1eb65fea38e69c5af669ea4aa49';
+$GOOGLE_KEY='';
 
 function base_url($page = "") {
     global $SITE_URL;
