@@ -29,15 +29,15 @@ code that was used to make the comparisons (many operations by hand) but it stil
 generation code.    
 This code use another repository: https://github.com/detobel36/gtfs_SQL_importer
 
-## Tools
-The folder "Tools" contains files used in "production" to treat MTA data with a custom Barefoot version.
+## [Tool](./Tool)
+The folder "Tool" contains files used in "production" to treat MTA data with a custom Barefoot version.
 
-## Website
+## [Website](./Website)
 Contains all files used to display PostgreSQL content on web.
 
-## readAndStore
+## [readAndStore](./readAndStore)
 Litle Java program to read GTFS backup file and execute SQL query
 
-## barefoot.sh
+## [barefoot.sh](./barefoot.sh)
 Script to set up and launch barefoot
 
