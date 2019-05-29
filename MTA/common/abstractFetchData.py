@@ -62,7 +62,10 @@ class AbstractFetchData(abc.ABC):
                     self.clearOldData()
                     compteur = 0
 
-                sleep(int(self.mtaConfig['sleep_time']))
+                sleepTime = int(self.mtaConfig['sleep_time'])
+                if sleepTime > 0:
+                    sleep(sleepTime)
+                self.endLoop()
                 self.printInfo("------------")
 
 
@@ -79,6 +82,8 @@ class AbstractFetchData(abc.ABC):
         feed.ParseFromString(response.read())
         return feed.entity
 
+    def endLoop(self):
+        pass
 
     @abc.abstractmethod
     def clearOldData(self):
