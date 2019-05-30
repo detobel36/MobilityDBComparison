@@ -1,7 +1,7 @@
 <?php
 
 // WARNING ne pas refaire un 'pg_pconnect'
-pg_pconnect("host=127.0.0.1 dbname=" . $db_name . " user=mtauser password=x1Kokzgfarz67fcU");
+pg_pconnect("host=127.0.0.1 dbname=" . $db_name . " user=mtauser password=password");
 
 pg_query("select st_point(0,0);"); // Update session to enable postgis
 
