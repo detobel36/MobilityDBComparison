@@ -7,3 +7,10 @@
 # Java project
 */nbproject/
 */target/
+
+# LaTex
+Report/*.aux
+Report/*.log
+Report/*.out
+Report/*.synctex.gz
+Report/*.toc
