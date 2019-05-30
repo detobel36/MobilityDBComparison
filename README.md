@@ -3,14 +3,14 @@ This repository contain all code used to reply to this problem.
 
 # Table of content
 
-- [General informations](./#general-informations)
-    - [Data source](./#data-source)
-- [Differents programs/solutions in different folder](./#differents-programssolutions-in-different-folder)
-    - [MTA_Comparison](./#mta_comparison)
-    - [Tool](./#tool)
-    - [Website](./#website)
-    - [readAndStore](./#readandstore)
-    - [barefoot.sh](./#barefootsh)
+- [General informations](#general-informations)
+    - [Data source](#data-source)
+- [Differents programs/solutions in different folder](#differents-programssolutions-in-different-folder)
+    - [MTA_Comparison](#mta_comparison)
+    - [Tool](#tool)
+    - [Website](#website)
+    - [readAndStore](#readandstore)
+    - [barefoot.sh](#barefootsh)
 
 
 
