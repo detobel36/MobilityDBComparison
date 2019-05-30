@@ -1,14 +1,43 @@
-# MobilityDB Comparison 
-Comparaison de différentes utilisation de l'extension MobilityDB
+# MTA_Comparison
+The goal of these files are to set up automatic tests with MTA data. But finally, most of the tests were done by hand.
 
-## MTA
-MTA est la société de transport en commun de New York.  Les données récupéréres sont utilisés comme flux de données en entré.
+## General architecture
+The file `main.py` allows you to choose a solution to test and launch the tests. Each folder contains
+file configuration and some code to process tests. Obviously the test consist of send GTFS data (from MTA) 
+to a system.
 
-### Postgresql
-Un premier test a été fait en utilisant seulement MobilityDB et Postgresql.
+You can test:
+- Barefoot
+- Pipelinedb
+- Postgresql
+- TimescaleDB (just table structure, no Python code)
 
-### TimescaleDB
-TimescaleDB est une extension qui permet de gérer plus facilement la temporalité d'une base de donnée.
 
-### PipelineDB
-PipelineDB permet de faire du stream dans une base de donnée
+# Files descriptions
+
+## [Barefoot](./Barefoot)
+This folder contains the python script used to process fetch data and send it to Barefoot (with socket)
+
+## [common](./common)
+This folder contains all logical/useful code which will be used by other component. It is in this folder
+that request is made.
+
+## [Pipelinedb](./Pipelinedb)
+This folder contains the python script used to process fetch data and send it to Pipelinedb (SQL Query)
+
+## [Postgresql](./Postgresql)
+This folder contains the python script used to process fetch data and send it to Postgresql (SQL Query)
+
+## [TimescaleDB](./TimescaleDB)
+This folder contains only the SQL structure to test TimescaleDB
+
+## [customSend.py](./customSend.py)
+This file allow to directly send "fake" MTA Data to Barefoot. This is useful to test a solution with
+a small number of constent data.
+
+## [main.py](./main.py)
+File used to launch other. Execute:
+```BASH
+python3 main.py
+```
+
