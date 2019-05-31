@@ -74,17 +74,17 @@
 \section{Introduction}
 
     \subsection{Français}
-        Ce document est une documentation complémentaire au mémoire ``Traitement d'un flux de données spatio-temporel avec PostgreSQL''. Le travail lié à ce mémoire a nécéssité plusieurs tests et divers mises en places.\\
+        Ce document est une documentation complémentaire au mémoire ``Traitement d'un flux de données spatio-temporel avec PostgreSQL''. Le travail lié à ce mémoire a nécessité plusieurs tests et diverses mises en places.\\
         
-        Ce document vise donc à expliquer les différentes structures crées et leurs mises en place. Tous les codes ont été regroupé sur un repos Github: \url{https://github.com/detobel36/MobilityDBComparison}\\
+        Ce document vise donc à expliquer les différentes structures créées et leurs mises en place. Tous les codes ont été regroupés sur un repos Github: \url{https://github.com/detobel36/MobilityDBComparison}\\
         Pour des raisons de facilité, ce document sera écrit en anglais. Notez que le mémoire est lui en français.
         
         
     \subsection{English}
         This document is a complementary documentation for the master thesis ``Traitement d'un flux de données spatio-temporel avec PostgreSQL''. The work linked to this master thesis required multiple tests and various set up.\\
         
-        This document try to explain the different architecture and how to set up them. All code has been push on a Github repository: \url{https://github.com/detobel36/MobilityDBComparison}\\
-        For easy of use, this document has been writen in English. Notice that the master thesis is in french.
+        This document try to explain the different architecture and how to set up them. All code has been pushed on a Github repository: \url{https://github.com/detobel36/MobilityDBComparison}\\
+        For easy of use, this document has been written in English. Notice that the master thesis is in French.
 
         
 \section{Architecture}
@@ -93,7 +93,7 @@
     \subsection{Servers}
         The project has evolved in time. At the beginning a server (from ULB) was used to try some solutions: ``Tristan23''. But after several tests, it seems that Barefoot was consuming a lot of memory. Thus, tests were set up on this first server (``Tristan23'') and ``production'' was set up on another server: ``GeoData''.\\
         
-        These two servers are managed by the ULB and for security reason they aren't accessible with web protocol (without a complicated authentification set up). So to display easily results, a new server was used. This new server is a private server (rent by ``R. Detobel'').\\
+        These two servers are managed by the ULB and for security reason they aren't accessible with web protocol (without a complicated authentication set up). So to display easily results, a new server was used. This new server is a private server (rent by ``R. Detobel'').\\
         
         To summarize, in this project, three servers were used:
         \begin{itemize}
@@ -104,7 +104,7 @@
         
     \subsection{Existing architecture}
         \label{subsec:exist_architecture}
-        The image \ref{img:exist_architecture} show the end architecutre set up.
+        The image \ref{img:exist_architecture} show the end architecture set up.
         \begin{figure}[h]
             \centering
             \begin{tikzpicture}
@@ -166,15 +166,15 @@
             \caption{Existing architecture}
             \label{img:exist_architecture}
         \end{figure}
-        This architecture make computation on GeoData server and results are displayed on private serveur. Notice that we need to choose: store the result on GeoData (to mesure performance) or store result on private server to display results.\\
+        This architecture makes computation on GeoData server and results are displayed on private server. Notice that we need to choose: store the result on GeoData (to measure performance) or store result on private server to display results.\\
         
         The ``Tristan23'' server isn't displayed in this image because it is only used to set up new solution and test that they work.
         
         
     \subsection{Possible architecture}
-        The section \ref{subsec:exist_architecture} present the current solution, which respect some hardware constraint (server access, performances...).\\
+        The section \ref{subsec:exist_architecture} present the current solution, which respects some hardware constraint (server access, performances...).\\
         
-        The solution present by the figure \ref{img:exist_architecture} could be simplified to have only one server. It is this solution that is presented in the image \ref{img:new_architecture}.
+        The solution presents by the figure \ref{img:exist_architecture} could be simplified to have only one server. It is this solution that is presented in the image \ref{img:new_architecture}.
         \begin{figure}[h]
             \centering
             \begin{tikzpicture}
@@ -217,8 +217,8 @@
         The different programs used in this image will be detailed in the following points. Note that they must not all be on the same server. Most of the connections made between the different programs can be adapted to a remote solution (socket, SQL query, file recovery (especially archives)...).
         
         
-\section{Programs and configuration}
-    This section will describe programs mentioned before. The goal is to explain the differents step to set up and configure these programs.
+\section{Programs and configurations}
+    This section will describe programs mentioned before. The goal is to explain the different steps to set up and configure these programs.
     
     \subsection{Script to fetch data source}
         \label{subsec:script_fetch_data}
@@ -226,13 +226,13 @@
         This document will not details how it work but, to summarize it is simply a GET query send to MTA server which fetch information and create a stream socket in addition to store the content of the result into a file.
     
     \subsection{MTA Barefoot}
-        ``MTA Barefoot'' is a modified version of Barefoot. In fact it is more of a Java program using Barefoot as a library. The goal is to allow different methods to send information into Barefoot.\\
+        ``MTA Barefoot'' is a modified version of Barefoot. In fact, it is more of a Java program using Barefoot as a library. The goal is to allow different methods to send information into Barefoot.\\
         
         \subsubsection{Build}
             The code of ``MTA Barefoot'' is accessible here: \url{https://github.com/detobel36/MTABarefoot}\\
             To get the executable file (with the extension ``.jar''), you only need to execute the following command: \verb|mvn clean build|
             
-            You will get a folder ``target'' with two executables. One of them directly includes the Barefoot library (the one containing, logically, "with-dependencies" in its name).
+            You will get a folder ``target'' with two executable. One of them directly includes the Barefoot library (the one containing, logically, "with-dependencies" in its name).
         
         \subsubsection{Start}
             To start the executable you can execute the following command: 
@@ -243,8 +243,8 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
             
             For the configuration, the second argument reference the server configuration. ``MTA Barefoot'' is based on ``Track server'' (from Barefoot). The same configuration could be used. An example is available here: \url{https://github.com/detobel36/MobilityDBComparison/tree/master/Tool/config}\\
             
-            For the third parameters, it is information to connect to database. An example of configuration could be find here: \url{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/config/map_server.properties}\\
-            Notice that in image \ref{img:exist_architecture} the database could be on localhost or in remove. To switch easily between these two configuration, the script \verb|switchConfig.sh| was used (available \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/switchConfig.sh}{here}).\\
+            For the third parameters, it is information to connect to database. An example of configuration could be found here: \url{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/config/map_server.properties}\\
+            Notice that in image \ref{img:exist_architecture} the database could be on localhost or in remove. To switch easily between these two configurations, the script \verb|switchConfig.sh| was used (available \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/switchConfig.sh}{here}).\\
             
             There are three different type of input for ``MTA Barefoot'':
             \begin{itemize}
@@ -253,8 +253,8 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
                 \item ``socket'' which will listen to ``local'' socket, define by the script (define in point \ref{subsec:script_fetch_data}).
             \end{itemize}
             
-            For the output solution, two method are available: tcp and sql. The first one come from original code of Barefoot. The goal is to have a server (NodeJS) which lisen to a TCP connection and directly display result (on web). In this configuration nothing is done to save data.\\
-            The ``SQL'' output allow to execute one or multiple SQL Query when a position is treat. Queries which must be executed are store in the file \verb|request.sql|, present in the ``config`` folder. You will find an example \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/config/request.sql}{here}. MTA Barefoot will automaticaly detect if there is one or multiple query (based on '';`` symbol).\\
+            For the output solution, two methods are available: tcp and sql. The first one come from original code of Barefoot. The goal is to have a server (NodeJS) which listen to a TCP connection and directly display result (on web). In this configuration nothing is done to save data.\\
+            The ``SQL'' output allow to execute one or multiple SQL Query when a position is treated. Queries which must be executed are stored in the file \verb|request.sql|, present in the ``config`` folder. You will find an example \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/config/request.sql}{here}. MTA Barefoot will automatically detect if there is one or multiple query (based on '';`` symbol).\\
             Variable could be used in queries. The variable have the following syntax: ''\verb|:name |''. Notice the space after the variable name.\\
             
             Possible variables in queries process by Barefoot:
@@ -283,7 +283,7 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
             \item PipelineDB, more information here: \url{http://docs.pipelinedb.com/installation.html#install-postgresql}
             \item TimescaleDB, more information here: \url{https://docs.timescale.com/v1.3/getting-started/installation}
         \end{itemize}
-        In this project differents solutions have been tested. Tables are not the same for each solution. But to test these solutions, some other data (and thus tables) are required.
+        In this project different solutions have been tested. Tables are not the same for each solution. But to test these solutions, some other data (and thus tables) are required.
         \begin{itemize}
             \item \verb|usa_adm| which contains counties of USA.\\
                 The script \verb|import.sh| in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Tool/NewYorkCounty}{NewYorkCounty} could be used to create the table and import the data.
@@ -299,26 +299,26 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
             \item TimescaleDB with pre-treatment;
             \item TimescaleDB with post-treatment.
         \end{itemize}
-        For each solution, 3 files have been created in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}: one for the initialisation, one for the insert query and the last for the selection.\\
+        For each solution, 3 files have been created in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}: one for the initialization, one for the insert query and the last for the selection.\\
         
-        The setup of a solution is describe in the point \ref{sec:link_technologies}.
+        The setup of a solution is described in the point \ref{sec:link_technologies}.
         
         
     \subsection{Website}
         \label{sec:webiste}
-        To set up a website to view result you just need to install a web server (the current solution have been test with Apache2) and install PHP 7.0 (or upper).\\
+        To set up a website to view result you just need to install a web server (the current solution have been tested with Apache2) and install PHP 7.0 (or upper).\\
         
         Then you need to add \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Website}{following folder} in your ``web home'' folder.\\
         
         A small configuration is needed:
         \begin{itemize}
             \item For database, you need to update the file \verb|model/bdd.php| with your own PostgreSQL configuration.
-            \item For webiste parameter, you need to update the file \verb|controllers/useful.php|, where you need to update Google Key and Website URL.
+            \item For website parameter, you need to update the file \verb|controllers/useful.php|, where you need to update Google Key and Website URL.
         \end{itemize}
         
-        All files in this website are not up-to-date. The interesing pages have the prefix \verb|visual|. For instance ``visualDashboard'' (the URL will be \verb|http://your_website.com/visualDashboard|) allow you to see the first case develop in the ``Result'' section of the master Thesis.\\
+        All files in this website are not up-to-date. The interesting pages have the prefix \verb|visual|. For instance ``visualDashboard'' (the URL will be \verb|http://your_website.com/visualDashboard|) allow you to see the first case develop in the ``Result'' section of the master Thesis.\\
         
-        In the master thesis, 3 cases were studied: bus informations, bus deviation and time in county (also named ``zone''). Each case have two files: one to made the SQL query and another to display result. Notice that a Javascript code is also define for each case (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Website/assets/js}{assets/js}.
+        In the master thesis, 3 cases were studied: bus informations, bus deviation and time in county (also named ``zone''). Each case has two files: one to made the SQL query and another to display result. Notice that a Javascript code is also defined for each case (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Website/assets/js}{assets/js}.
         \begin{itemize}
             \item \textbf{Bus information:}\\
                 The SQL query is in the file \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/getVisualDashboardData.php}{getVisualDashboardData.php}\\
@@ -335,7 +335,7 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
          
 \section{Link all technologies}
     \label{sec:link_technologies}
-    The structure have already be describe by the image \ref{img:new_architecture}. Previous points describe how to set up different technologies.\\
+    The structure has already been described by the image \ref{img:new_architecture}. Previous points describe how to set up different technologies.\\
     The next step is to modify configuration and set up database to make everything work together. With this new step we will be able to made test but also to have concrete solution.\\
     
     In all the situation we will use:
@@ -347,7 +347,7 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
     \end{itemize}
     In addition to these programs, we can use some extension in the database like TimescaleDB or PipelineDB.\\
     
-    Concretely, the first step when we want to test a solution is to set up the database. To do that, check the initialisation file linked to your solution (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}).\\
+    Concretely, the first step when we want to test a solution is to set up the database. To do that, check the initialization file linked to your solution (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}).\\
     When it is done, set the configuration of Barefoot. In the folder \verb|config| you need to set the insert query in the file \verb|request.sql| and check that \verb|map_server.properties| have right access to your database.\\
     
     If you would like to see the result, do not forget to update the SQL query in the web server (see point \ref{sec:webiste}). When all is done you can start Barefoot and (normally) it is ok.
