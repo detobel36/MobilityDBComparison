@@ -1,5 +1,5 @@
 # Processing a spatio-temporal data stream with PostgreSQL
-This repository contain all code used to reply to this problem.
+This repository contain all code used to reply to this problem. See [the report](./Report/report.pdf) to have all information about this project.
 
 # Table of contents
 
@@ -27,7 +27,7 @@ Here is the different program that have been considered:
 Three different server have been used:
 - Geodata: ULB server in production to fetch and process data
 - Tristan23: ULB server to set up solution (before to push it on Geodata)
-- Detobel: Own server used to install web view
+- Private: Own server used to install web view
 
 
 ### Data source
