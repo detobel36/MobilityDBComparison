@@ -38,6 +38,8 @@
 \title{INFO-F-530: Computer Science Seminar}
 \author{Rémy Detobel}
 
+\setlength{\parindent}{0cm}
+
 \begin{document}
 
 %%%%%%%%%%%%%%%%
@@ -281,16 +283,29 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
             \item PipelineDB, more information here: \url{http://docs.pipelinedb.com/installation.html#install-postgresql}
             \item TimescaleDB, more information here: \url{https://docs.timescale.com/v1.3/getting-started/installation}
         \end{itemize}
-        In this project differents solutions have been tested. Tables are not the same for each solution. They will therefore be detailed in next point (see point \ref{sec:link_technologies}). But to test these solutions, some other data are required.
+        In this project differents solutions have been tested. Tables are not the same for each solution. But to test these solutions, some other data (and thus tables) are required.
         \begin{itemize}
             \item \verb|usa_adm| which contains counties of USA.\\
-            The script \verb|import.sh| in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Tool/NewYorkCounty}{NewYorkCounty} could be used to create the table and import the data.
+                The script \verb|import.sh| in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Tool/NewYorkCounty}{NewYorkCounty} could be used to create the table and import the data.
             \item \verb|gtfs_shape_geoms| which contains bus road of New York.\\
-            The folder ``Tool'' contain a script to create and import easily the data. \url{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/importGtfsMta.sh}
+                The folder ``Tool'' contain a script to create and import easily the data. \url{https://github.com/detobel36/MobilityDBComparison/blob/master/Tool/importGtfsMta.sh}
         \end{itemize}
+        
+        As already mentioned, the database is based on PostgreSQL. Extensions are then added to improve or add elements to the database. Each extension allows you to create a new solution. For some solutions, variants can also be tested. Concretely, there are 5 choices:
+        \begin{itemize}
+            \item PostgreSQL with pre-treatment;
+            \item PostgreSQL with post-treatment;
+            \item PipelineDB;
+            \item TimescaleDB with pre-treatment;
+            \item TimescaleDB with post-treatment.
+        \end{itemize}
+        For each solution, 3 files have been created in the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}: one for the initialisation, one for the insert query and the last for the selection.\\
+        
+        The setup of a solution is describe in the point \ref{sec:link_technologies}.
         
         
     \subsection{Website}
+        \label{sec:webiste}
         To set up a website to view result you just need to install a web server (the current solution have been test with Apache2) and install PHP 7.0 (or upper).\\
         
         Then you need to add \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Website}{following folder} in your ``web home'' folder.\\
@@ -301,7 +316,21 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
             \item For webiste parameter, you need to update the file \verb|controllers/useful.php|, where you need to update Google Key and Website URL.
         \end{itemize}
         
-        All files in this website are not up-to-date. The interesing pages have the prefix \verb|visual|. For instance ``visualDashboard'' (the URL will be \verb|http://your_website.com/visualDashboard|) allow you to see the first case develop in the ``Result'' section of the master Thesis.
+        All files in this website are not up-to-date. The interesing pages have the prefix \verb|visual|. For instance ``visualDashboard'' (the URL will be \verb|http://your_website.com/visualDashboard|) allow you to see the first case develop in the ``Result'' section of the master Thesis.\\
+        
+        In the master thesis, 3 cases were studied: bus informations, bus deviation and time in county (also named ``zone''). Each case have two files: one to made the SQL query and another to display result. Notice that a Javascript code is also define for each case (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Website/assets/js}{assets/js}.
+        \begin{itemize}
+            \item \textbf{Bus information:}\\
+                The SQL query is in the file \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/getVisualDashboardData.php}{getVisualDashboardData.php}\\
+                The display page is the file \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/visualDashboard.php}{visualDashboard.php}
+            \item \textbf{Bus deviation:}\\
+                SQL Query: \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/getDeviationData.php}{getDeviationData.php}\\
+                Display file: \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/visualDeviation.php}{visualDeviation.php}
+            \item \textbf{Time in county:}\\
+                SQL Query: \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/getCountyData.php}{getCountyData.php}\\
+                Display file: \href{https://github.com/detobel36/MobilityDBComparison/blob/master/Website/controllers/visualCounty.php}{visualCounty.php}
+        \end{itemize}
+
         
          
 \section{Link all technologies}
@@ -316,16 +345,11 @@ java -jar <jar file> </path/to/server/properties> </path/to/mapserver/properties
         \item PostgreSQL with MobilityDB;
         \item Webiste (not required, only to show results).
     \end{itemize}
-    In addition to these programs, we can use some extension in the database like TimescaleDB ou PipelineDB.\\
+    In addition to these programs, we can use some extension in the database like TimescaleDB or PipelineDB.\\
     
-    Notice that for PostgreSQL (without extension) and TimescaleDB it is possible to set a solution with ``computationnal'' aspect when data is selected. For more information, see the master thesis.
+    Concretely, the first step when we want to test a solution is to set up the database. To do that, check the initialisation file linked to your solution (check the folder \href{https://github.com/detobel36/MobilityDBComparison/tree/master/Script}{Script}).\\
+    When it is done, set the configuration of Barefoot. In the folder \verb|config| you need to set the insert query in the file \verb|request.sql| and check that \verb|map_server.properties| have right access to your database.\\
     
+    If you would like to see the result, do not forget to update the SQL query in the web server (see point \ref{sec:webiste}). When all is done you can start Barefoot and (normally) it is ok.
     
-    \subsection{PostgreSQL}
-        The most basic architecture is just to use PostgreSQL.
-        
-        
-        
-    
-
 \end{document}

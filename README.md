@@ -1,12 +1,13 @@
 # Processing a spatio-temporal data stream with PostgreSQL
 This repository contain all code used to reply to this problem.
 
-# Table of content
+# Table of contents
 
 - [General informations](#general-informations)
     - [Data source](#data-source)
 - [Differents programs/solutions in different folder](#differents-programssolutions-in-different-folder)
     - [MTA_Comparison](#mta_comparison)
+    - [Report](#Report)
     - [Tool](#tool)
     - [Website](#website)
     - [readAndStore](#readandstore)
@@ -41,6 +42,9 @@ Multiple files to setup database and fetch data to make the comparison. Finally,
 code that was used to make the comparisons (many operations by hand) but it still contains the 
 generation code.    
 This code use another repository: https://github.com/detobel36/gtfs_SQL_importer
+
+### [Report](./Report)
+Contains report to explain how to use these files.
 
 ### [Tool](./Tool)
 The folder "Tool" contains files used in "production" to treat MTA data with a custom Barefoot version.
